@@ -12,11 +12,18 @@ import {
     @PrimaryGeneratedColumn()
     id: number;
   
+    
     @Column()
-    name: string;
+    name: string; //title: string; se volessi fare le migration
   
     @Column()
     brand: string;
+
+    @Column({
+      default: 0
+    })
+    recommendations: number
+
   
     @JoinTable() // 👈 Join the 2 tables - only the OWNER-side does this
     @ManyToMany(
