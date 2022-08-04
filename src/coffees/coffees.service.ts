@@ -9,7 +9,7 @@ import { Event } from 'src/events/entities/event.entity';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 
-@Injectable()
+@Injectable() //ci dice che questa classe è un provider, và integrato nel costruttore di chi lo utilizza
 export class CoffeesService {
     constructor(
       @InjectRepository(Coffee)
