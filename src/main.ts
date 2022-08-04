@@ -9,6 +9,9 @@ async function bootstrap() {
     // Esempio: passo {name: ciccio, proprieta_non_riconosciuta: true}, considera solo {name: ciccio} secondo il modello
     forbidNonWhitelisted: true,  //Se passo proprietà non contemplate restituisco errore
     transform: true, // trasforma il paylod delle richieste nella primitiva
+    transformOptions:{
+      enableImplicitConversion: true //Ci consente di evitare il type come quello che è nella pagination-query-dto
+    }
 
   }));  // => si dichiara che tipo di validatori utilizzerà l'app npm i class-validator class-transformer
   await app.listen(3000);
