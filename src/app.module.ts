@@ -5,7 +5,7 @@ import { CoffeeModule } from "./coffee/coffee.module"
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [CoffeeModule,CoffeeModule, TypeOrmModule.forRoot(
+  imports: [CoffeeModule, TypeOrmModule.forRoot(
     {
       type: 'postgres',
       host: 'localhost',
