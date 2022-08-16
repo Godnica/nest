@@ -8,6 +8,8 @@ import { Flavor } from './entities/flavor.entity';
 import { Event } from 'src/events/entities/event.entity';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { COFFEE_BRANDS } from './coffees.constants';
+import { ConfigService, ConfigType } from '@nestjs/config';
+import coffeesConfig from './config/coffees.config';
 
 
 @Injectable() //ci dice che questa classe è un provider, và integrato nel costruttore di chi lo utilizza
@@ -18,9 +20,21 @@ export class CoffeesService {
       @InjectRepository(Flavor)
       private readonly flavorRepository: Repository<Flavor>,
       private readonly dataSource : DataSource,
-      @Inject(COFFEE_BRANDS) coffeeBrands: string[]
+      @Inject(COFFEE_BRANDS) coffeeBrands: string[],
+      private readonly configService : ConfigService,    
+      //Altro modo 
+      @Inject(coffeesConfig.KEY)
+      private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>  
     ){
       console.log(coffeeBrands);
+
+      const databaseHost = this.configService.get('database.host', 'localhost'); //viene da /config/app.config
+      const test = this.configService.get('coffees');
+
+      const tost = this.coffeesConfiguration
+
+      console.log(databaseHost, test, tost)
+
     }
 
       findAll(paginationQuery:PaginationQueryDto) {
