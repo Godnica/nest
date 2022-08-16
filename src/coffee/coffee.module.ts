@@ -6,6 +6,8 @@ import { Coffee } from 'src/coffees/entities/coffee.entity';
 import { Flavor } from 'src/coffees/entities/flavor.entity';
 import { Event } from 'src/events/entities/event.entity';
 import { COFFEE_BRANDS } from 'src/coffees/coffees.constants';
+import { ConfigModule } from '@nestjs/config';
+import coffeesConfig from 'src/coffees/config/coffees.config';
 
 
 /**@Prod_Dev  quesa roba serve per cambiare il comportamento dell'app a seconda di dev o prod*/
@@ -21,7 +23,7 @@ export class CoffeeBrandsFactory{
 }
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],  //Aggiungere sempre nel modulo quello che si vuole aggiungere
+    imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event]), ConfigModule.forFeature(coffeesConfig)],  //Aggiungere sempre nel modulo quello che si vuole aggiungere
     controllers: [CoffeesController],
     providers: [
         CoffeesService,
