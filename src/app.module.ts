@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoffeeModule } from "./coffee/coffee.module"
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { APP_PIPE } from '@nestjs/core';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -20,8 +22,15 @@ import { ConfigModule } from '@nestjs/config';
       autoLoadEntities: true,
       synchronize: true
     }
-  )],
+  ),
+    CommonModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    // {
+    //   provide : APP_PIPE,
+    //   useClass: ValidationPipe        ----> Nel caso volessi utilizzare globalmente un PIPE
+    // }
+  ],
 })
 export class AppModule {}
