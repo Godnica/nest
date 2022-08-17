@@ -10,25 +10,33 @@ import {
   Patch,
   Post,
   Query,
+  SetMetadata,
 } from '@nestjs/common';
+import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
+import { ParseIntPipe } from 'src/common/pipes/parse-int.pipe';
+import { Protocol } from 'src/common/decorators/protocol.decorator';
 
 @Controller('coffees')
 export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
 
+  //@SetMetadata('isPublic', true)  => QUesto non è il best pratica creo un decoratori custom
+  @Public()
   @Get()
-  findAll(@Query() paginationQuery: PaginationQueryDto) {
+  findAll(@Protocol() protocol: string,  @Query() paginationQuery: PaginationQueryDto) {
     // const { limit, offset } = paginationQuery;
+    console.log(protocol)
     return this.coffeesService.findAll(paginationQuery);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    const coffe = this.coffeesService.findOne(id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    console.log(id);
+    const coffe = this.coffeesService.findOne(''+id);
     if (!coffe) {
         //throw new HttpException(`Coffee with id ${id} not found`, HttpStatus.NOT_FOUND);   
         throw new NotFoundException(`Coffe ${id}, non trovato`) // Scritto molto più figo
